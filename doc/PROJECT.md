@@ -17,5 +17,5 @@ Para esse projeto será usado uma `ESP32` como controladora e uma `Raspberry Pi 
 | #T02 |   IN   |  X   |  Sensor de Temperatura  | Temperatura do Radiador          |
 | #T03 |   IN   |  X   |  Sensor de Temperatura  | Temperatura apos o Radiador      |
 | #T04 |   IN   |  X   |  Sensor de Temperatura  | Temperatura no meio da Geladeira |
-| #I01 |   IN   |  X   |       Interruptor       | Interruptor porta aberta         |
+| #I01 |   IN   |  X   |  Interruptor (Switch)   | Interruptor porta aberta         |
 | #B01 |   IN   |  X   | Sensor de Nível de Água | Reservatorio de agua do degelo   |
