@@ -2,33 +2,30 @@
 #include <MyWifi.h>
 
 #include "MyConfig/MyConfig.h"
+#include "MyConfig/ServerConfig.h"
 
-#define LED 27
+ConfigFile FConfig;
 
 void setup() {
   Serial.begin(115200);
 
-  if (!setupConfig()) {
+  if (!setupConfig(&FConfig)) {
     Serial.println("Falha ao iniciar a Configuração");
     while (true) {
       delay(1000);
     }
   }
 
-  if (!loadConfig()) {
+  if (!loadConfig(&FConfig)) {
     Serial.println("Falha ao ler arquivo de configuração");
     Serial.println("Iniciando Servidor de Configuração");
     // Caso não tenha arquivo de configuração
     // Deve ser criado um!
-    setupWifi(false);
-    while (true) {
-      // Substituir por servidor Web
-      // Start Config Server
-      delay(1000);
-    }
+    setupWifi(true, NULL, NULL);
+    startServer(&FConfig);
   }
 
-  setupWifi(true);
+  setupWifi(false, &FConfig.master, &FConfig.backup);
 }
 
 void loop() {
