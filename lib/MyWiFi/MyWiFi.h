@@ -7,7 +7,7 @@
 #include "./include/Structs.h"
 
 // Setup WiFi config
-void setupWifi(bool configLoad);
+void setupWifi(bool isAP, WifiConfig *master, WifiConfig *backup);
 
 // Connect to WiFi
 bool connectWifi();
