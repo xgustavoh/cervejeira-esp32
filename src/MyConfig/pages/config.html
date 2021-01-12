@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuração - Cervejeira</title>
+  <style>
+    * { border: 0; margin: 0; padding: 0; }
+    body {
+      color: #fff;
+      background: #535c68;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      text-align: center;
+      align-items: center;
+      justify-content: center;
+    }
+    select, input {
+      color: #fff;
+      border: #fff 1px solid;
+      border-radius: 5px;
+      background: transparent;
+      padding: 5px;
+      width: 25vw;
+      margin: 5px 0;
+      min-width: 300px;
+    }
+    h1 { margin-bottom: 0; }
+    p { margin-bottom: 10px; }
+    option { color: #000; }
+    input { width: 23vw; min-width: 280px; padding: 6px 10px; }
+    input::placeholder { color: #ccc; }
+
+    input[type="submit"] {
+      margin: 20px 0;
+      cursor: pointer; 
+      border-color: #079992;
+      background: #38ada9;
+    }
+    input[type="submit"]:hover {
+      background: #079992;
+    }
+  </style>
+</head>
+<body>
+  <form action="/check-wifi" method="POST">
+    <h1 style="margin-bottom: 10px;">Configuração Inicial</h1>
+    <p style="margin-bottom: 20px;">Escolha o Wi-Fi para a Cervejeira 🍺 se conectar.</p>
+    <select name="ssid">
+      <option value="0">Escolha o Wi-Fi</option>
+      <option value="0">Escolha o Wi-Fi</option>
+      <option value="0">Escolha o Wi-Fi</option>
+      <option value="0">Escolha o Wi-Fi</option>
+    </select>
+    <br/>
+    <input type="password" name="password" placeholder="Informe a senha" /><br/>
+    <input type="submit" value="Salvar">
+    <div style="color: #e84118;">
+      Falha ao conectar no Wi-Fi
+    </div>
+  </form>
+</body>
+</html>
