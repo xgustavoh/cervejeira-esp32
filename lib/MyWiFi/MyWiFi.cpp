@@ -4,10 +4,17 @@
 
 bool isMaster = false;
 
-void setupWifi(bool configLoad) {
+WifiConfig *_master = NULL;
+WifiConfig *_backup = NULL;
+
+void setupWifi(bool isAP, WifiConfig *master, WifiConfig *backup) {
+  // Atribue a Variavel Global as configurações
+  _master = master;
+  _backup = backup;
+
   WiFi.disconnect(true, true);  // Reset Wi-Fi config.
-  WiFi.mode(configLoad ? WIFI_AP_STA : WIFI_STA);
-  if (configLoad) {
+  WiFi.mode(isAP ? WIFI_AP_STA : WIFI_STA);
+  if (!isAP) {
     connectWifi();
   } else {
     startAP();
@@ -15,13 +22,15 @@ void setupWifi(bool configLoad) {
 }
 
 bool connectWifi() {
-  if (connectWifi(true, "WifiF", "-")) {
+  if (_master != NULL && _master->ssid[0] != '\0' &&
+      connectWifi(true, _master->ssid, _master->password)) {
     isMaster = true;
     return true;
   }
 
   isMaster = false;
-  return connectWifi(true, "WifidoKPT", "-");
+  return _backup != NULL && _backup->ssid[0] != '\0' &&
+         connectWifi(true, _backup->ssid, _backup->password);
 }
 
 bool connectWifi(bool disconnect, char *ssid, char *password) {
@@ -32,7 +41,7 @@ bool connectWifi(bool disconnect, char *ssid, char *password) {
   }
 
   WiFi.begin(ssid, password);
-  Serial.printf("Connect to %s\n", ssid, password);
+  Serial.printf("Connect to %s\n", ssid);
 
   int attempts = 0;
   wl_status_t status = WiFi.status();
@@ -76,9 +85,8 @@ int checkWifi() {
   // Reconectar o WiFi, motivos:
   // - WiFi Desconectado
   // - Conectado no 'WiFi BackUp' mas o 'WiFi Master' voltou
-  return connectWifi()
-             ? MYWIFI_ERROR
-             : (isMaster ? MYWIFI_CONNECTED : MYWIFI_CONNECTED_BACKUP);
+  return connectWifi() ? (isMaster ? MYWIFI_CONNECTED : MYWIFI_CONNECTED_BACKUP)
+                       : MYWIFI_ERROR;
 }
 
 bool checkMasterWifi() { return MYWIFI_MASTER_OFF; }
