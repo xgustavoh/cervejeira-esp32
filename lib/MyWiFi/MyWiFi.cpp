@@ -32,20 +32,25 @@ bool connectWifi(bool disconnect, char *ssid, char *password) {
   }
 
   WiFi.begin(ssid, password);
-  Serial.printf("Connect to %s\n", ssid);
+  Serial.printf("Connect to %s\n", ssid, password);
 
   int attempts = 0;
-
   wl_status_t status = WiFi.status();
-  while ((status == WL_DISCONNECTED || status == WL_IDLE_STATUS) &&
+  while ((status == WL_DISCONNECTED || status == WL_IDLE_STATUS ||
+          status == WL_NO_SHIELD) &&
          attempts < MYWIFI_MAX_ATTEMPTS) {
-    if (status == WL_DISCONNECTED) attempts++;
+    // Contador de Tentativas ("timeout")
+    if (status != WL_IDLE_STATUS)
+      attempts++;
+    else if (attempts > 0)
+      attempts = 0;
 
     delay(500);
     status = WiFi.status();
   }
 
   if (status != WL_CONNECTED) {
+    WiFi.disconnect(false, false);
     Serial.printf("Fail to Connect %s: %s\n", ssid, getStatusError(status));
     return false;
   }
@@ -99,7 +104,7 @@ const char *getStatusError(wl_status_t status) {
  **/
 void startAP() {
   WiFi.softAP(MYWIFI_AP_SSID, MYWIFI_AP_PASSWORD, 1, 0, 2);
-  WiFi.softAPsetHostname("cervejeira.config");
+  WiFi.softAPsetHostname("cervejeira.local");
   IPAddress IP = WiFi.softAPIP();
 
   Serial.println("Wi-Fi de configuração Iniciado!");
