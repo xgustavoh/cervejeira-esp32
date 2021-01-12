@@ -2,6 +2,8 @@
 
 #include <MyWiFi.h>
 
+#include "MyConfig.h"
+
 // Criar Servidor da Porta 80
 WiFiServer server(80);
 
@@ -84,7 +86,7 @@ void routerServer(String* header, WiFiClient* client) {
       config = true;
       sendBodySuccess(client, ssid);
       WiFi.disconnect(false, false);
-      // [fazer] Salvar o Wi-Fi nas configurações!
+      updateWiFi(ssid, password, NULL, false);
     } else {
       sendBodyConfig(client, true);
     }

@@ -22,4 +22,9 @@ bool loadConfig();
  **/
 bool saveConfig();
 
+/**
+ * Atualiza a configura do Wi-Fi
+ **/
+bool updateWiFi(char *ssid, char *password, char *ipCheck, bool isBackup);
+
 #endif  // __MYCONFIG_H__

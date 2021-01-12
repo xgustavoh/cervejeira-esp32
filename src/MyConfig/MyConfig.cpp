@@ -44,3 +44,26 @@ bool saveConfig() {
   f.close();
   return true;
 }
+
+// Altera as configurações!
+bool updateWiFi(char *ssid, char *password, char *ipCheck, bool isBackup) {
+  if (isBackup) {
+    memcpy(FConfig.backup.ssid, ssid, 32);
+    memcpy(FConfig.backup.password, password, 63);
+    if (ipCheck != NULL) {
+      memcpy(FConfig.backup.ipCheck, ipCheck, 15);
+    } else {
+      memset(FConfig.backup.ipCheck, 0x00, 15);
+    }
+  } else {
+    memcpy(FConfig.master.ssid, ssid, 32);
+    memcpy(FConfig.master.password, password, 63);
+    if (ipCheck != NULL) {
+      memcpy(FConfig.master.ipCheck, ipCheck, 15);
+    } else {
+      memset(FConfig.master.ipCheck, 0x00, 15);
+    }
+  }
+
+  saveConfig();
+}
