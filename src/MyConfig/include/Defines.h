@@ -15,6 +15,6 @@
 /**
  * Nome do Arquivo de Configuração
  **/
-#define CONFIG_FILE "./config.bin"
+#define CONFIG_FILE "/config.bin"
 
 #endif  // __MYCONFIG_DEFINES_H__

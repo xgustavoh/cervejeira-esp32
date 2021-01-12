@@ -2,15 +2,13 @@
 
 #include <MyWiFi.h>
 
-#include "MyConfig.h"
-
 // Criar Servidor da Porta 80
 WiFiServer server(80);
 
 // Configurado com Sucesso
 bool config = false;
 
-void startServer() {
+void startServer(ConfigFile* FConfig) {
   server.begin();
   while (!config) {
     WiFiClient client = server.available();
@@ -22,12 +20,14 @@ void startServer() {
         if (client.available() > 0) {
           header += client.readString();
         } else if (header.length() > 0) {
-          routerServer(&header, &client);
+          routerServer(FConfig, &header, &client);
           client.stop();
         }
       }
     }
   }
+  server.close();
+  server.end();
 }
 
 /**
@@ -62,23 +62,19 @@ void getData(String* data, String key, char* ret) {
 /**
  * Router
  **/
-void routerServer(String* header, WiFiClient* client) {
+void routerServer(ConfigFile* FConfig, String* header, WiFiClient* client) {
   if (header->indexOf("GET /favicon.ico") >= 0) {
     sendHeader404(client);
     return;
   }
-  Serial.print("HEADER: ");
-  Serial.println(*header);
 
   // Rotas de URL
   sendHeader200(client);
   if (header->indexOf("POST /check-wifi") >= 0) {
     String dataPost = getBodyData(header);
     char ssid[32], password[63];
-    for (int i = 0; i < 63; i++) {
-      if (i < 32) ssid[i] = '\0';
-      password[i] = '\0';
-    }
+    memset(ssid, 0x00, 32);
+    memset(password, 0x00, 63);
 
     getData(&dataPost, "ssid", ssid);
     getData(&dataPost, "password", password);
@@ -86,7 +82,7 @@ void routerServer(String* header, WiFiClient* client) {
       config = true;
       sendBodySuccess(client, ssid);
       WiFi.disconnect(false, false);
-      updateWiFi(ssid, password, NULL, false);
+      updateWiFi(FConfig, ssid, password, NULL, false);
     } else {
       sendBodyConfig(client, true);
     }

@@ -3,11 +3,13 @@
 
 #include <WiFi.h>
 
+#include "MyConfig.h"
+
 /**
  * Inicia o Servidor de configuração
  * Função fica em LOOP até que a configuração do Wi-Fi seja atribuida
  **/
-void startServer();
+void startServer(ConfigFile* FConfig);
 
 /**
  *  Get POST Data
@@ -17,7 +19,7 @@ String getBodyData(String* header);
 /**
  * Faz o Controle de Rota do Server
  **/
-void routerServer(String* header, WiFiClient* client);
+void routerServer(ConfigFile* FConfig, String* header, WiFiClient* client);
 
 /**
  * Send Header Status 200
@@ -37,6 +39,6 @@ void sendBodyConfig(WiFiClient* client, bool error);
 /**
  * Send Sucess Page
  **/
-void sendBodySuccess(WiFiClient* client);
+void sendBodySuccess(WiFiClient* client, char* ssid);
 
 #endif  // __SERVERCONFIG_H__

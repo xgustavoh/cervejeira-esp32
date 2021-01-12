@@ -12,6 +12,4 @@ struct ConfigFile {
   WifiConfig backup;
 };
 
-extern ConfigFile FConfig;
-
 #endif  // __MYCONFIG_STRUCTS_H__

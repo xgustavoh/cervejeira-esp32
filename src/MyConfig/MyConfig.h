@@ -10,21 +10,22 @@
 /**
  * Inicia a Configuração do SPIFFS
  **/
-bool setupConfig();
+bool setupConfig(ConfigFile *FConfig);
 
 /**
  * Carrega as configurações salva na memoria
  **/
-bool loadConfig();
+bool loadConfig(ConfigFile *FConfig);
 
 /**
  * Salva as configurações
  **/
-bool saveConfig();
+bool saveConfig(ConfigFile *FConfig);
 
 /**
  * Atualiza a configura do Wi-Fi
  **/
-bool updateWiFi(char *ssid, char *password, char *ipCheck, bool isBackup);
+bool updateWiFi(ConfigFile *FConfig, char *ssid, char *password, char *ipCheck,
+                bool isBackup);
 
 #endif  // __MYCONFIG_H__
