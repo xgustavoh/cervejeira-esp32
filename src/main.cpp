@@ -3,6 +3,7 @@
 
 #include "MyConfig/MyConfig.h"
 #include "MyConfig/ServerConfig.h"
+#include "MyMQTT/MyMQTT.h"
 
 ConfigFile FConfig;
 
@@ -26,11 +27,16 @@ void setup() {
   }
 
   setupWifi(false, &FConfig.master, &FConfig.backup);
+  setupMQTT();
 }
 
 void loop() {
   // Verifica se o WiFi está Ok!
-  checkWifi();
+  if (checkWifi() != MYWIFI_ERROR) {
+    // Verifica a conexão com o servidor MQTT
+    // Se estiver Conectado, exetuar a Loop do MQTT
+    if (checkBroker()) loop_broker();
+  }
 
   // put your main code here, to run repeatedly:
   Serial.println("Loop!");

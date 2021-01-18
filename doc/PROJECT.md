@@ -1,7 +1,7 @@
 # Cervejeira Wi-Fi
 
 Este projeto consiste no firmware de uma controladora para geladeira/cervejeira.
-Para esse projeto será usado uma `ESP32` como controladora e uma `Raspberry Pi 2` com servidor (broker) do MTQQ + Site.
+Para esse projeto será usado uma `ESP32` como controladora e uma `Raspberry Pi 2` com servidor (broker) do MQTT + Site.
 
 ## Componentes:
 
