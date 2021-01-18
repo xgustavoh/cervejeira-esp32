@@ -43,6 +43,14 @@ bool saveConfig(ConfigFile *FConfig) {
   return true;
 }
 
+bool deleteConfig(ConfigFile *FConfig) {
+  if (!SPIFFS.exists(CONFIG_FILE)) {
+    return true;
+  }
+
+  return SPIFFS.remove(CONFIG_FILE);
+}
+
 // Altera as configurações!
 bool updateWiFi(ConfigFile *FConfig, char *ssid, char *password, char *ipCheck,
                 bool isBackup) {

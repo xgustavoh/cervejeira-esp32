@@ -23,6 +23,11 @@ bool loadConfig(ConfigFile *FConfig);
 bool saveConfig(ConfigFile *FConfig);
 
 /**
+ * Deleta as configurações
+ **/
+bool deleteConfig(ConfigFile *FConfig);
+
+/**
  * Atualiza a configura do Wi-Fi
  **/
 bool updateWiFi(ConfigFile *FConfig, char *ssid, char *password, char *ipCheck,
